@@ -1,0 +1,7 @@
+.vs
+*/bin
+*/obj
+**/bin
+**/obj
+WebshopBackend/appsettings.json
+WebshopBackend/appsettings.Development.json
