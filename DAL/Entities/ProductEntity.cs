@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShopProduct;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -24,5 +25,10 @@ namespace DAL.Entities
         public decimal price { get; set; }
         public int stock { get; set; }
         public string fotourl { get; set; }
+
+        public static Product ToProduct(ProductEntity entity)
+        {
+            return new Product(entity.productid, entity.name, entity.price, entity.stock, entity.fotourl);
+        }
     }
 }

@@ -1,11 +1,12 @@
-﻿using System;
+﻿using ShopProduct;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShopProduct.DTOs
+namespace WebshopBackend.DTOs
 {
     public class ProductDTO
     {

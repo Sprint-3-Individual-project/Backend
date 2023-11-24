@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShopProduct;
-using ShopProduct.DTOs;
 using ShopProduct.Interfaces;
+using WebshopBackend.DTOs;
 using WebshopBackend.Exceptions;
 
 namespace WebshopBackend.Controllers

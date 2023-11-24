@@ -37,7 +37,7 @@ namespace DAL.Repositories
             ProductEntity entity = _context.Product.Where(product => product.productid == id).FirstOrDefault();
             if (entity != null)
             {
-                _product = new Product(entity.productid, entity.name, entity.price, entity.stock, entity.fotourl);
+                _product = ProductEntity.ToProduct(entity);
             }
             else
             {
