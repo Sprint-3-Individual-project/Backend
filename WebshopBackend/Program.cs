@@ -55,3 +55,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+namespace WebshopBackend
+{
+    public class WebshopBackendProgram { }
+}
