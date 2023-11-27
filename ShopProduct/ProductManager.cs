@@ -16,7 +16,7 @@ namespace ShopProduct
 
         public IEnumerable<Product> GetAllProducts()
         {
-            _products = (List<Product>)_productRepository.GetAllProducts();
+            _products = (List<Product>)_productRepository.GetAllProducts();  // Tijd logica zetten
 
             return _products;
         }

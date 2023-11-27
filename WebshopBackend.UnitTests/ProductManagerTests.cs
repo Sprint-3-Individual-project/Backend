@@ -14,7 +14,7 @@ namespace WebshopBackend.UnitTests
 {
     public class ProductManagerTests
     {
-        public List<Product> MockProductList()
+        public List<Product> MockProductList()  // ipv mock TestData benoemen
         {
             List<Product> products = new List<Product>
             {
