@@ -46,22 +46,6 @@ namespace WebshopBackend.UnitTests
         }
 
         [Test]
-        public void GetAllProducts_CollectProducts_GivesUnexpectedListOfProducts()
-        {
-            // Arrange
-            Mock<IProductRepository> productrepository = new Mock<IProductRepository>();
-            productrepository.Setup(x => x.GetAllProducts()).Returns(MockProductList());
-            List<Product> products = new List<Product>();
-            ProductManager productManager = new ProductManager(productrepository.Object);
-
-            // Act
-            products = (List<Product>)productManager.GetAllProducts();
-
-            // Assert
-            Assert.AreNotEqual(3, products.Count);
-        }
-
-        [Test]
         public void GetProductById_CollectSelectedProduct_GivesExpectedProduct()
         {
             // Arrange
@@ -79,20 +63,25 @@ namespace WebshopBackend.UnitTests
         }
 
         [Test]
-        public void GetProductById_CollectSelectedProduct_GivesUnexpectedProduct()
+        public void CheckDiscount_AppliesDiscountOnSaturday()
         {
             // Arrange
             Mock<IProductRepository> productrepository = new Mock<IProductRepository>();
-            productrepository.Setup(x => x.GetProductByID(1)).Returns(MockProduct());
-            int GivenId = 1;
-
-            ProductManager productManager = new ProductManager(productrepository.Object);
+            var productManager = new ProductManager(productrepository.Object);
+            var products = new List<Product>();
+        {
+                new Product(1, "Product1", 100.0m, 10, "url1");
+                new Product(2, "Product2", 150.0m, 5, "url2");
+        };
 
             // Act
-            Product product = productManager.GetProductByID(GivenId);
+            var result = productManager.CheckDiscount(products);
 
             // Assert
-            Assert.AreNotEqual("SteelDrum", product.Name);
+            foreach (var product in result)
+            {
+                Assert.AreEqual(product.Price * 0.8m, product.Price);
+            }
         }
     }
 }

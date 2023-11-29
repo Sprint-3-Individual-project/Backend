@@ -30,9 +30,11 @@ namespace ShopProduct
         }
 
         private decimal _price;
+
         public decimal Price
         {
             get { return _price; }
+            set { _price = value; }
         }
 
         private int _stock;
@@ -46,6 +48,10 @@ namespace ShopProduct
         {
             get { return _fotourl; }
         }
-        //TODO: Productentity methode maken
+
+        public void SetPrice(decimal price)
+        {
+            _price = price * 0.8m;
+        }
     }
 }

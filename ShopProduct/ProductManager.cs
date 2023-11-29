@@ -18,6 +18,8 @@ namespace ShopProduct
         {
             _products = (List<Product>)_productRepository.GetAllProducts();  // Tijd logica zetten
 
+            CheckDiscount(_products);
+
             return _products;
         }
 
@@ -26,6 +28,32 @@ namespace ShopProduct
             _product = _productRepository.GetProductByID(id);
 
             return _product;
+        }
+        public IEnumerable<Product> CheckDiscount(List<Product> products)
+        {
+            List<Product> updatedproducts = products;
+
+            days currentday = (days)DateTime.Now.DayOfWeek;
+            // check for day
+            if(currentday == days.Saturday)
+            {
+                foreach(Product product in updatedproducts)
+                {
+                    product.SetPrice(product.Price);
+                }
+            }
+            return updatedproducts;
+        }
+        private enum days
+        {
+            None = 0,
+            Monday = 1,
+            Tuesday = 2,
+            Wednesday = 3,
+            Thursday = 4,
+            Friday = 5,
+            Saturday = 6,
+            Sunday = 7
         }
     }
 }
