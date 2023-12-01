@@ -25,7 +25,7 @@ jobs:
         catalog: nservicebus
       
     - name: Create SQL DB
-      run: "sqlcmd -Q \"CREATE DATABASE S3Webshop\" -d \"nservicebus\""
+      run: "sqlcmd -Q \"CREATE DATABASE S3Webshop;\" -d \"nservicebus\""
 
     - name: Add appsettings.json
       run: |
