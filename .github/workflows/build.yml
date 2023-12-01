@@ -18,6 +18,9 @@ jobs:
       with:
         dotnet-version: 7.0
 
+    - name: Add appsettings.json
+      run: echo "\{ \"AllowedOrigins\": "http://localhost:1337" \}" > appsettings.json 
+
     - name: Restore dependencies
       run: dotnet restore
 
