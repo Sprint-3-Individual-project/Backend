@@ -32,7 +32,7 @@ jobs:
         echo '{' > WebshopBackend/appsettings.json 
         echo '  "AllowedOrigins": "http://localhost:1337",' >> WebshopBackend/appsettings.json
         echo '  "ConnectionStrings": {' >> WebshopBackend/appsettings.json
-        echo '    "DefaultConnection": "Server=localhost;Database=S3Webshop;Integrated Security=True;"' >> WebshopBackend/appsettings.json
+        echo '    "DefaultConnection": "Server=localhost;Database=S3Webshop;User Id=sa;Password=***;Integrated Security=True;TrustServerCertificate=False;Encrypt=False;"' >> WebshopBackend/appsettings.json
         echo '  }' >> WebshopBackend/appsettings.json
         echo '}' >> WebshopBackend/appsettings.json
         cat WebshopBackend/appsettings.json
