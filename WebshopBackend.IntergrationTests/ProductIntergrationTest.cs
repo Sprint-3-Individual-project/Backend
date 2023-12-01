@@ -26,7 +26,7 @@ namespace WebshopBackend.IntergrationTests
             HttpResponseMessage response = await httpClient.GetAsync(url);
 
             //Assert
-            Console.WriteLine(response);
+            Console.WriteLine(response.Content);
             Assert.True(response.IsSuccessStatusCode);
 
             // check of die de producten ophaalt.
