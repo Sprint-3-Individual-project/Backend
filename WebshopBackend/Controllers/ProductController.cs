@@ -39,7 +39,10 @@ namespace WebshopBackend.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return StatusCode(500, "Internal Server Error: " + ex.Message);
+                return StatusCode(500, new
+                {
+                    Message = "Internal Server Error: " + ex.Message
+                });
             }
         }
         [HttpGet("{id}")]
