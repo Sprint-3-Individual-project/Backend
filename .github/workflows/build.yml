@@ -23,13 +23,16 @@ jobs:
       with:
         connection-string-env-var: SQL_SERVER_CONNECTION_STRING
         catalog: nservicebus
+      
+    - name: Create SQL DB
+      run: "sqlcmd -Q \"CREATE DATABASE S3Webshop\" -d \"nservicebus\""
 
     - name: Add appsettings.json
       run: |
         echo '{' > WebshopBackend/appsettings.json 
         echo '  "AllowedOrigins": "http://localhost:1337",' >> WebshopBackend/appsettings.json
         echo '  "ConnectionStrings": {' >> WebshopBackend/appsettings.json
-        echo '    "DefaultConnection": "'"$SQL_SERVER_CONNECTION_STRING"'TrustServerCertificate=True;Encrypt=False;"' >> WebshopBackend/appsettings.json
+        echo '    "DefaultConnection": "'"$SQL_SERVER_CONNECTION_STRING"'Initial Catalog=S3Webshop;TrustServerCertificate=True;Encrypt=False;"' >> WebshopBackend/appsettings.json
         echo '  }' >> WebshopBackend/appsettings.json
         echo '}' >> WebshopBackend/appsettings.json
         cat WebshopBackend/appsettings.json
