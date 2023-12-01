@@ -33,9 +33,9 @@ namespace ShopProduct
         {
             List<Product> updatedproducts = products;
 
-            days currentday = (days)DateTime.Now.DayOfWeek;
+            Days currentday = (Days)DateTime.Now.DayOfWeek;
             // check for day
-            if(currentday == days.Saturday)
+            if(currentday == Days.Saturday)
             {
                 foreach(Product product in updatedproducts)
                 {
@@ -44,7 +44,7 @@ namespace ShopProduct
             }
             return updatedproducts;
         }
-        private enum days
+        private enum Days
         {
             None = 0,
             Monday = 1,

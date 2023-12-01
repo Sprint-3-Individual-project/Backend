@@ -33,3 +33,5 @@ jobs:
 
     - name: Run integration tests
       run: dotnet test ./WebshopBackend.IntergrationTests/WebshopBackend.IntergrationTests.csproj --configuration Release
+      env:
+        DB_CONNECTION_STRING: ${{ secrets.DB_CONNECTION_STRING }}
