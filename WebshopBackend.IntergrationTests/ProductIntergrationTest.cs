@@ -16,7 +16,7 @@ namespace WebshopBackend.IntergrationTests
         }
 
         [Theory]
-        [InlineData("api/Product")]
+        [InlineData("/api/Product")]
         public async Task Get_EndpointsReturnSuccess(string url)
         {
             //Arrange
@@ -26,7 +26,7 @@ namespace WebshopBackend.IntergrationTests
             HttpResponseMessage response = await httpClient.GetAsync(url);
 
             //Assert
-
+            Console.WriteLine(response);
             Assert.True(response.IsSuccessStatusCode);
 
             // check of die de producten ophaalt.
