@@ -31,6 +31,7 @@ builder.Services.AddScoped<IProductManager, ProductManager>();
 builder.Services.AddDbContext<ProductData>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    Console.WriteLine(builder.Configuration.GetConnectionString("DefaultConnection"));
 }, ServiceLifetime.Transient);
 builder.Services.AddSwaggerGen();
 
