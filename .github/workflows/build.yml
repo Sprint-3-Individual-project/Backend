@@ -1,5 +1,3 @@
-name: CI/CD for .NET Core Backend
-
 on:
   push:
     branches:
@@ -8,43 +6,47 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 7.0
-    
-    - name: Install SQL Server
-      uses: Particular/install-sql-server-action@v1.0.0
-      with:
-        connection-string-env-var: SQL_SERVER_CONNECTION_STRING
-        catalog: nservicebus
-      
-    - name: Create SQL DB
-      run: "sqlcmd -Q \"CREATE DATABASE S3Webshop;\""
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0
 
-    - name: Add appsettings.json
-      run: |
-        echo '{' > WebshopBackend/appsettings.json 
-        echo '  "AllowedOrigins": "http://localhost:1337",' >> WebshopBackend/appsettings.json
-        echo '  "ConnectionStrings": {' >> WebshopBackend/appsettings.json
-        echo '    "DefaultConnection": "Server=localhost;Database=S3Webshop;User Id=sa;Password=***;Integrated Security=True;TrustServerCertificate=False;Encrypt=False;TrustedConnection=False"' >> WebshopBackend/appsettings.json
-        echo '  }' >> WebshopBackend/appsettings.json
-        echo '}' >> WebshopBackend/appsettings.json
-        cat WebshopBackend/appsettings.json
-        
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Build
-      run: dotnet build --configuration Release
+      - name: Build
+        run: dotnet build --configuration Release
 
-    - name: Run unit tests
-      run: dotnet test ./WebshopBackend.UnitTests/WebshopBackend.UnitTests.csproj --configuration Release
+  unit-test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Run integration tests
-      run: dotnet test ./WebshopBackend.IntergrationTests/WebshopBackend.IntergrationTests.csproj --configuration Release
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0
+
+      - name: Run unit tests
+        run: dotnet test ./WebshopBackend.UnitTests/WebshopBackend.UnitTests.csproj --configuration Release
+
+  integration-test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0
+
+      - name: Run integration tests
+        run: dotnet test ./WebshopBackend.IntergrationTests/WebshopBackend.IntergrationTests.csproj --configuration Release
