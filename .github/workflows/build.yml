@@ -17,10 +17,16 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 7.0
+    
+    - name: Install SQL Server
+      uses: Particular/install-sql-server-action@v1.0.0
+      with:
+        connection-string-env-var: SQL_SERVER_CONNECTION_STRING
+        catalog: nservicebus
 
     - name: Add appsettings.json
       run: |
-         echo '{"AllowedOrigins": "http://localhost:1337"}' > WebshopBackend/appsettings.json
+         echo '{"AllowedOrigins": "http://localhost:1337", "ConnectionStrings": {"$SQL_SERVER_CONNECTION_STRING "}}' > WebshopBackend/appsettings.json
 
     - name: Restore dependencies
       run: dotnet restore
@@ -33,5 +39,3 @@ jobs:
 
     - name: Run integration tests
       run: dotnet test ./WebshopBackend.IntergrationTests/WebshopBackend.IntergrationTests.csproj --configuration Release
-      env:
-        DB_CONNECTION_STRING: ${{ secrets.DB_CONNECTION_STRING }}
