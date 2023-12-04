@@ -62,25 +62,75 @@ namespace WebshopBackend.UnitTests
             Assert.AreEqual("avocado", product.Name);
         }
 
-        [Test]
-        public void CheckDiscount_AppliesDiscountOnSaturday()
+        [Test] //ochtend
+        public void DetermineDiscountMultiplier_CollectDiscountMultiplier_GivesProductWithMorningDiscount()
         {
             // Arrange
             Mock<IProductRepository> productrepository = new Mock<IProductRepository>();
+            productrepository.Setup(x => x.GetAllProducts()).Returns(MockProductList());
+            List<Product> products = new List<Product>();
+            List<Product> mockProducts = MockProductList();
             var productManager = new ProductManager(productrepository.Object);
-            var products = new List<Product>();
-        {
-                new Product(1, "Product1", 100.0m, 10, "url1");
-                new Product(2, "Product2", 150.0m, 5, "url2");
-        };
+            var discountManager = new DiscountManager();
+            Clock.SetStaticTime(DateTime.Today.AddHours(11));
+            float currentDiscount = 1f;
 
             // Act
-            var result = productManager.CheckDiscount(products);
+            currentDiscount = discountManager.DetermineDiscountMultiplier(Clock.CurrentTime);
+            products = productManager.GetAllProducts().ToList();
 
             // Assert
-            foreach (var product in result)
+            for (int i = 0; i < mockProducts.Count; i++)
             {
-                Assert.AreEqual(product.Price * 0.8m, product.Price);
+                Assert.AreEqual(mockProducts[i].Price * (decimal)currentDiscount, products[i].Price);
+            }
+        }
+
+        [Test] //middag
+        public void DetermineDiscountMultiplier_CollectDiscountMultiplier_GivesProductWithNoDiscount()
+        {
+            // Arrange
+            Mock<IProductRepository> productrepository = new Mock<IProductRepository>();
+            productrepository.Setup(x => x.GetAllProducts()).Returns(MockProductList());
+            List<Product> products = new List<Product>();
+            List<Product> mockProducts = MockProductList();
+            var productManager = new ProductManager(productrepository.Object);
+            var discountManager = new DiscountManager();
+            Clock.SetStaticTime(DateTime.Today.AddHours(15));
+            float currentDiscount = 1f;
+
+            // Act
+            currentDiscount = discountManager.DetermineDiscountMultiplier(Clock.CurrentTime);
+            products = productManager.GetAllProducts().ToList();
+
+            // Assert
+            for (int i = 0; i < mockProducts.Count; i++)
+            {
+                Assert.AreEqual(mockProducts[i].Price * (decimal)currentDiscount, products[i].Price);
+            }
+        }
+
+        [Test] //avond
+        public void DetermineDiscountMultiplier_CollectDiscountMultiplier_GivesProductWithEveningDiscount()
+        {
+            // Arrange
+            Mock<IProductRepository> productrepository = new Mock<IProductRepository>();
+            productrepository.Setup(x => x.GetAllProducts()).Returns(MockProductList());
+            List<Product> products = new List<Product>();
+            List<Product> mockProducts = MockProductList();
+            var productManager = new ProductManager(productrepository.Object);
+            var discountManager = new DiscountManager();
+            Clock.SetStaticTime(DateTime.Today.AddHours(22));
+            float currentDiscount = 1f;
+
+            // Act
+            currentDiscount = discountManager.DetermineDiscountMultiplier(Clock.CurrentTime);
+            products = productManager.GetAllProducts().ToList();
+
+            // Assert
+            for (int i = 0; i < mockProducts.Count; i++)
+            {
+                Assert.AreEqual(mockProducts[i].Price * (decimal)currentDiscount, products[i].Price);
             }
         }
     }

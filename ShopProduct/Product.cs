@@ -30,11 +30,11 @@ namespace ShopProduct
         }
 
         private decimal _price;
+        private float discountMultiplier = 1f;
 
         public decimal Price
         {
-            get { return _price; }
-            set { _price = value; }
+            get { return _price * ((decimal) discountMultiplier); }
         }
 
         private int _stock;
@@ -49,9 +49,9 @@ namespace ShopProduct
             get { return _fotourl; }
         }
 
-        public void SetPrice(decimal price)
+        public void SetDiscountMultiplier(float _discountMultiplier)
         {
-            _price = price * 0.8m;
+            discountMultiplier = _discountMultiplier;
         }
     }
 }

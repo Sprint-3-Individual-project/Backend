@@ -8,52 +8,39 @@ namespace ShopProduct
         private readonly IProductRepository _productRepository;
         private List<Product> _products;
         private Product _product;
+        private DiscountManager discountManager;
 
         public ProductManager(IProductRepository productRepository)
         {
             _productRepository = productRepository;
+            discountManager = new DiscountManager();
         }
 
         public IEnumerable<Product> GetAllProducts()
         {
             _products = (List<Product>)_productRepository.GetAllProducts();  // Tijd logica zetten
 
-            CheckDiscount(_products);
+            // in de property Price Discount berekenen idempotence zodat als ik het meerdere keren uitvoer het resultaat hetzelfde blijft.
+
+            ApplyDiscounts(_products);
 
             return _products;
+        }
+
+        private void ApplyDiscounts(IEnumerable<Product> _products)
+        {
+            foreach(Product p in _products)
+            {
+                p.SetDiscountMultiplier(discountManager.DetermineDiscountMultiplier(Clock.CurrentTime));
+            }
         }
 
         public Product? GetProductByID(int id)
         {
             _product = _productRepository.GetProductByID(id);
+            _product.SetDiscountMultiplier(discountManager.DetermineDiscountMultiplier(Clock.CurrentTime));
 
             return _product;
-        }
-        public IEnumerable<Product> CheckDiscount(List<Product> products)
-        {
-            List<Product> updatedproducts = products;
-
-            Days currentday = (Days)DateTime.Now.DayOfWeek;
-            // check for day
-            if(currentday == Days.Saturday)
-            {
-                foreach(Product product in updatedproducts)
-                {
-                    product.SetPrice(product.Price);
-                }
-            }
-            return updatedproducts;
-        }
-        private enum Days
-        {
-            None = 0,
-            Monday = 1,
-            Tuesday = 2,
-            Wednesday = 3,
-            Thursday = 4,
-            Friday = 5,
-            Saturday = 6,
-            Sunday = 7
         }
     }
 }

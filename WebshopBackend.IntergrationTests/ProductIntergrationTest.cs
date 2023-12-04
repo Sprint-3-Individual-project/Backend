@@ -28,8 +28,6 @@ namespace WebshopBackend.IntergrationTests
             //Assert
             Console.WriteLine(response.Content);
             Assert.True(response.IsSuccessStatusCode);
-
-            // check of die de producten ophaalt.
         }
     }
 }
