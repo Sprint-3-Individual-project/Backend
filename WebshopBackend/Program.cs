@@ -30,8 +30,11 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductManager, ProductManager>();
 builder.Services.AddDbContext<ProductData>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-    Console.WriteLine(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Default"), (b) =>
+    {
+        b.MigrationsAssembly("WebshopBackend");
+    });
+    Console.WriteLine(builder.Configuration.GetConnectionString("Default"));
 }, ServiceLifetime.Transient);
 builder.Services.AddSwaggerGen();
 

@@ -14,6 +14,8 @@ namespace WebshopBackend.UnitTests
 {
     public class ProductManagerTests
     {
+        //ik heb de mockproductlist toch gehouden, dit omdat ik de huidige data wil hebben en als ik hiervan een private list van maakte.
+        // en deze mee gaf aan mijn mock dan veranderde hij alles in die lijst en kon ik het dus op het einde niet met elkaar vergelijken.
         public List<Product> MockProductList()  // ipv mock TestData benoemen
         {
             List<Product> products = new List<Product>
@@ -67,19 +69,17 @@ namespace WebshopBackend.UnitTests
         {
             // Arrange
             Mock<IProductRepository> productrepository = new Mock<IProductRepository>();
-            productrepository.Setup(x => x.GetAllProducts()).Returns(MockProductList());
-            List<Product> products = new List<Product>();
             List<Product> mockProducts = MockProductList();
+            productrepository.Setup(x => x.GetAllProducts()).Returns(MockProductList());
             var productManager = new ProductManager(productrepository.Object);
-            var discountManager = new DiscountManager();
             Clock.SetStaticTime(DateTime.Today.AddHours(11));
-            float currentDiscount = 1f;
 
             // Act
-            currentDiscount = discountManager.DetermineDiscountMultiplier(Clock.CurrentTime);
-            products = productManager.GetAllProducts().ToList();
+            float currentDiscount = DetermineDiscountMultiplier(Clock.CurrentTime);
+            List<Product> products = productManager.GetAllProducts().ToList();
 
             // Assert
+            
             for (int i = 0; i < mockProducts.Count; i++)
             {
                 Assert.AreEqual(mockProducts[i].Price * (decimal)currentDiscount, products[i].Price);
@@ -92,16 +92,13 @@ namespace WebshopBackend.UnitTests
             // Arrange
             Mock<IProductRepository> productrepository = new Mock<IProductRepository>();
             productrepository.Setup(x => x.GetAllProducts()).Returns(MockProductList());
-            List<Product> products = new List<Product>();
             List<Product> mockProducts = MockProductList();
             var productManager = new ProductManager(productrepository.Object);
-            var discountManager = new DiscountManager();
             Clock.SetStaticTime(DateTime.Today.AddHours(15));
-            float currentDiscount = 1f;
 
             // Act
-            currentDiscount = discountManager.DetermineDiscountMultiplier(Clock.CurrentTime);
-            products = productManager.GetAllProducts().ToList();
+            float currentDiscount = DetermineDiscountMultiplier(Clock.CurrentTime);
+            List<Product> products = productManager.GetAllProducts().ToList();
 
             // Assert
             for (int i = 0; i < mockProducts.Count; i++)
@@ -116,22 +113,24 @@ namespace WebshopBackend.UnitTests
             // Arrange
             Mock<IProductRepository> productrepository = new Mock<IProductRepository>();
             productrepository.Setup(x => x.GetAllProducts()).Returns(MockProductList());
-            List<Product> products = new List<Product>();
             List<Product> mockProducts = MockProductList();
             var productManager = new ProductManager(productrepository.Object);
-            var discountManager = new DiscountManager();
             Clock.SetStaticTime(DateTime.Today.AddHours(22));
-            float currentDiscount = 1f;
 
             // Act
-            currentDiscount = discountManager.DetermineDiscountMultiplier(Clock.CurrentTime);
-            products = productManager.GetAllProducts().ToList();
+            float currentDiscount = DetermineDiscountMultiplier(Clock.CurrentTime);
+            List<Product> products = productManager.GetAllProducts().ToList();
 
             // Assert
             for (int i = 0; i < mockProducts.Count; i++)
             {
                 Assert.AreEqual(mockProducts[i].Price * (decimal)currentDiscount, products[i].Price);
             }
+        }
+        private float DetermineDiscountMultiplier(DateTime dateTime)
+        {
+            var discountManager = new DiscountManager();
+            return discountManager.DetermineDiscountMultiplier(dateTime);
         }
     }
 }
