@@ -1,4 +1,5 @@
-﻿using ShopProduct;
+﻿using Microsoft.Identity.Client;
+using ShopProduct;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,6 +19,13 @@ namespace WebshopBackend.DTOs
             this.stock = stock;
             this.fotourl = fotourl;
         }
+        public ProductDTO(string name, decimal price, int stock, string fotourl)
+        {
+            this.name = name;
+            this.price = price;
+            this.stock = stock;
+            this.fotourl = fotourl;
+        }
 
         [Key]
         public int productid { get; set; }
@@ -30,6 +38,11 @@ namespace WebshopBackend.DTOs
         public static ProductDTO CastProduct(Product product)
         {
             return new ProductDTO(product.Productid, product.Name, product.Price, product.Stock, product.FotoUrl);
+        
+        }
+        public static Product CastProductDTO(ProductDTO dto)
+        {
+            return new Product(dto.name, dto.price, dto.stock, dto.fotourl);
         }
     }
 }

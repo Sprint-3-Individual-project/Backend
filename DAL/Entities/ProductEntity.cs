@@ -20,6 +20,13 @@ namespace DAL.Entities
             this.stock = stock;
             this.fotourl = fotourl;
         }
+        public ProductEntity(string name, decimal price, int stock, string fotourl)
+        {
+            this.name = name;
+            this.price = price;
+            this.stock = stock;
+            this.fotourl = fotourl;
+        }
 
         [Key]
         public int productid { get; set; }

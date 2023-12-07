@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShopProduct;
+using ShopProduct.Exceptions;
 using ShopProduct.Interfaces;
 using WebshopBackend.DTOs;
 using WebshopBackend.Exceptions;
@@ -29,7 +30,7 @@ namespace WebshopBackend.Controllers
                 List<ProductDTO> _dtos = new List<ProductDTO>();
                 List<Product> products = (List<Product>)_productManager.GetAllProducts();
 
-                foreach(Product product in products)
+                foreach (Product product in products)
                 {
                     ProductDTO dto = ProductDTO.CastProduct(product); // TODTO function.
                     _dtos.Add(dto);
@@ -59,5 +60,27 @@ namespace WebshopBackend.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        //[HttpPost]
+        //public IActionResult AddProduct(ProductDTO dto)
+        //{
+        //    try
+        //    {
+        //        Product product = ProductDTO.CastProductDTO(dto);
+        //        _productManager.AddProduct(product);
+        //        return Ok();
+        //    }
+        //    catch (EmptyProductException ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, new
+        //        {
+        //            Message = "Internal Server Error: " + ex.Message
+        //        });
+        //    }
+        //}
     }
 }

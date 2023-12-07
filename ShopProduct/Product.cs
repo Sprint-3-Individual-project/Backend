@@ -16,6 +16,13 @@ namespace ShopProduct
             _stock = stock;
             _fotourl = fotourl;
         }
+        public Product(string name, decimal price, int stock, string fotourl)
+        {
+            _name = name;
+            _price = price;
+            _stock = stock;
+            _fotourl = fotourl;
+        }
 
         private int _productid;
         public int Productid

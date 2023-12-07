@@ -26,21 +26,24 @@ namespace ShopProduct
 
             return _products;
         }
-
-        private void ApplyDiscounts(IEnumerable<Product> _products)
-        {
-            foreach(Product p in _products)
-            {
-                p.SetDiscountMultiplier(discountManager.DetermineDiscountMultiplier(Clock.CurrentTime));
-            }
-        }
-
         public Product? GetProductByID(int id)
         {
             _product = _productRepository.GetProductByID(id);
             _product.SetDiscountMultiplier(discountManager.DetermineDiscountMultiplier(Clock.CurrentTime));
 
             return _product;
+        }
+
+        //public async Task AddProduct(Product product)
+        //{
+        //    await _productRepository.AddProduct(product);
+        //}
+        private void ApplyDiscounts(IEnumerable<Product> _products)
+        {
+            foreach (Product p in _products)
+            {
+                p.SetDiscountMultiplier(discountManager.DetermineDiscountMultiplier(Clock.CurrentTime));
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DAL.Entities;
 using ShopProduct;
+using ShopProduct.Exceptions;
 using ShopProduct.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,20 @@ namespace DAL.Repositories
             }
             return _product;
         }
+
+        //public async Task AddProduct(Product product)
+        //{
+        //    ProductEntity entity = new ProductEntity(product.Name, product.Price, product.Stock, product.FotoUrl);
+        //    if(entity != null)
+        //    {
+        //        _context.Product.Add(entity);
+        //        _context.SaveChanges();
+        //    }
+        //    else
+        //    {
+        //        throw new EmptyProductException();
+        //    }
+        //}
     }
 }
 
