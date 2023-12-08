@@ -43,6 +43,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Docker Compose Action
+        uses: isbang/compose-action@v1.5.1
+        with:
+          compose-file: "./docker-compose.yml"
+          services: |
+            sql-server-db
+            
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v3
         with:
