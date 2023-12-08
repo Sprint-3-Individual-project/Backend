@@ -17,7 +17,10 @@ builder.Services.AddCors(options =>
     options.AddPolicy("_webshop_frontend",
         builder =>
         {
-            builder.WithOrigins(settings.Split(",")).AllowAnyHeader().AllowAnyMethod();
+            builder
+            .WithOrigins(settings?.Split(",") ?? new string[] { "" })
+            .AllowAnyHeader()
+            .AllowAnyMethod();
         });
 });
 

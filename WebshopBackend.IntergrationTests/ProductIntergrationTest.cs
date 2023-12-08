@@ -16,7 +16,7 @@ namespace WebshopBackend.IntergrationTests
         }
 
         [Theory]
-        [InlineData("api/Product")]
+        [InlineData("/api/Product")]
         public async Task Get_EndpointsReturnSuccess(string url)
         {
             //Arrange
