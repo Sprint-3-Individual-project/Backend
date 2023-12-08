@@ -61,6 +61,18 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+using (IServiceScope serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
+{
+    ProductData? context = serviceScope.ServiceProvider.GetService<ProductData>();
+    try
+    {
+        context?.Database.EnsureCreated();
+    }
+    catch(Exception ex)
+    {
+    }
+}
+
 app.Run();
 
 namespace WebshopBackend

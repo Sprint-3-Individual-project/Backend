@@ -35,10 +35,10 @@ jobs:
 
       - name: Run unit tests
         run: dotnet test ./WebshopBackend.UnitTests/WebshopBackend.UnitTests.csproj --configuration Release
-
+        
   integration-test:
     runs-on: ubuntu-latest
-    needs: build
+    needs: unit-test
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
