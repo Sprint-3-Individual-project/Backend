@@ -9,7 +9,7 @@ using WebshopBackend.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var settings = builder.Configuration.GetSection("AllowedOrigins");
+var settings = builder.Configuration["AllowedOrigins"];
 
 // Add services to the container.
 builder.Services.AddCors(options =>
@@ -17,7 +17,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("_webshop_frontend",
         builder =>
         {
-            builder.WithOrigins(settings.Value.Split(",")).AllowAnyHeader().AllowAnyMethod();
+            builder.WithOrigins(settings.Split(",")).AllowAnyHeader().AllowAnyMethod();
         });
 });
 
