@@ -20,7 +20,7 @@ namespace WebshopBackend.UnitTests
             var result = discountManager.DetermineDiscountMultiplier(morningTime);
 
             // Assert
-            Assert.AreEqual(discountManager.MorningDiscountMultiplier, result);
+            Assert.AreEqual(discountManager.MorningDiscountPercentage, result);
         }
 
         [Test]
@@ -34,7 +34,7 @@ namespace WebshopBackend.UnitTests
             var result = discountManager.DetermineDiscountMultiplier(eveningTime);
 
             // Assert
-            Assert.AreEqual(discountManager.EveningDiscountMultiplier, result);
+            Assert.AreEqual(discountManager.EveningDiscountPercentage, result);
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace WebshopBackend.UnitTests
             var result = discountManager.DetermineDiscountMultiplier(afternoonTime);
 
             // Assert
-            Assert.AreEqual(discountManager.DefaultDiscountMultiplier, result);
+            Assert.AreEqual(discountManager.DefaultDiscountPercentage, result);
         }
     }
 }

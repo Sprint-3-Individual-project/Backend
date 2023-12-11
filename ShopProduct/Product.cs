@@ -36,12 +36,20 @@ namespace ShopProduct
             get { return _name; }
         }
 
-        private decimal _price;
-        private float discountMultiplier = 1f;
+        
+        //public float discountMultiplier = 1f;
+        private int discountPercentage;
 
+        public int DiscountPercentage
+        {
+            get {  return discountPercentage;}
+        }
+
+        private decimal _price;
         public decimal Price
         {
-            get { return _price * ((decimal) discountMultiplier); }
+            //get { return _price * ((decimal) discountMultiplier); }
+            get { return _price * ((100 - (decimal)discountPercentage) / 100); }
         }
 
         private int _stock;
@@ -56,9 +64,9 @@ namespace ShopProduct
             get { return _fotourl; }
         }
 
-        public void SetDiscountMultiplier(float _discountMultiplier)
+        public void SetDiscountMultiplier(int _discountPercentage)
         {
-            discountMultiplier = _discountMultiplier;
+            discountPercentage = _discountPercentage;
         }
     }
 }

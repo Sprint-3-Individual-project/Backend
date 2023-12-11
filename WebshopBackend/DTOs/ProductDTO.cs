@@ -11,13 +11,14 @@ namespace WebshopBackend.DTOs
 {
     public class ProductDTO
     {
-        public ProductDTO(int productid, string name, decimal price, int stock, string fotourl)
+        public ProductDTO(int productid, string name, decimal price, int stock, string fotourl, int discountpercentage)
         {
             this.productid = productid;
             this.name = name;
             this.price = price;
             this.stock = stock;
             this.fotourl = fotourl;
+            this.DiscountPercentage = discountpercentage;
         }
         public ProductDTO(string name, decimal price, int stock, string fotourl)
         {
@@ -33,11 +34,12 @@ namespace WebshopBackend.DTOs
         public decimal price { get; set; }
         public int stock { get; set; }
         public string fotourl { get; set; }
+        public int DiscountPercentage { get; set; }
 
         //TODO: Todto functie maken
         public static ProductDTO CastProduct(Product product)
         {
-            return new ProductDTO(product.Productid, product.Name, product.Price, product.Stock, product.FotoUrl);
+            return new ProductDTO(product.Productid, product.Name, product.Price, product.Stock, product.FotoUrl, product.DiscountPercentage);
         
         }
         public static Product CastProductDTO(ProductDTO dto)

@@ -75,14 +75,14 @@ namespace WebshopBackend.UnitTests
             Clock.SetStaticTime(DateTime.Today.AddHours(11));
 
             // Act
-            float currentDiscount = DetermineDiscountMultiplier(Clock.CurrentTime);
+            int discountPercentage = DetermineDiscountMultiplier(Clock.CurrentTime);
             List<Product> products = productManager.GetAllProducts().ToList();
 
             // Assert
             
             for (int i = 0; i < mockProducts.Count; i++)
             {
-                Assert.AreEqual(mockProducts[i].Price * (decimal)currentDiscount, products[i].Price);
+                Assert.AreEqual(mockProducts[i].Price * ((100 - (decimal)discountPercentage) / 100), products[i].Price);
             }
         }
 
@@ -97,13 +97,13 @@ namespace WebshopBackend.UnitTests
             Clock.SetStaticTime(DateTime.Today.AddHours(15));
 
             // Act
-            float currentDiscount = DetermineDiscountMultiplier(Clock.CurrentTime);
+            int discountPercentage = DetermineDiscountMultiplier(Clock.CurrentTime);
             List<Product> products = productManager.GetAllProducts().ToList();
 
             // Assert
             for (int i = 0; i < mockProducts.Count; i++)
             {
-                Assert.AreEqual(mockProducts[i].Price * (decimal)currentDiscount, products[i].Price);
+                Assert.AreEqual(mockProducts[i].Price * ((100 - (decimal)discountPercentage) / 100), products[i].Price);
             }
         }
 
@@ -118,16 +118,15 @@ namespace WebshopBackend.UnitTests
             Clock.SetStaticTime(DateTime.Today.AddHours(22));
 
             // Act
-            float currentDiscount = DetermineDiscountMultiplier(Clock.CurrentTime);
+            int discountPercentage = DetermineDiscountMultiplier(Clock.CurrentTime);
             List<Product> products = productManager.GetAllProducts().ToList();
-
             // Assert
             for (int i = 0; i < mockProducts.Count; i++)
             {
-                Assert.AreEqual(mockProducts[i].Price * (decimal)currentDiscount, products[i].Price);
+                Assert.AreEqual(mockProducts[i].Price * ((100 - (decimal)discountPercentage) / 100), products[i].Price);
             }
         }
-        private float DetermineDiscountMultiplier(DateTime dateTime)
+        private int DetermineDiscountMultiplier(DateTime dateTime)
         {
             var discountManager = new DiscountManager();
             return discountManager.DetermineDiscountMultiplier(dateTime);

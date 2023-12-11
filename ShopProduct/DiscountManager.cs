@@ -8,14 +8,14 @@ namespace ShopProduct
 {
     public class DiscountManager
     {
-        public float MorningDiscountMultiplier { get { return morningDiscountMultiplier; } }
-        public float EveningDiscountMultiplier { get { return eveningDiscountMultiplier; } }
-        public float DefaultDiscountMultiplier { get { return defaultDiscountMultiplier; } }
+        public int MorningDiscountPercentage { get { return morningDiscountPercentage; } }
+        public int EveningDiscountPercentage { get { return eveningDiscountPercentage; } }
+        public int DefaultDiscountPercentage { get { return defaultDiscountPercentage; } }
 
-        private readonly float morningDiscountMultiplier = 0.70f; //30%
-        private readonly float eveningDiscountMultiplier = 0.90f; //10%
-        private readonly float defaultDiscountMultiplier = 1;     //0%
-        public float DetermineDiscountMultiplier(DateTime time)
+        private readonly int morningDiscountPercentage = 30; //30%
+        private readonly int eveningDiscountPercentage = 10; //10%
+        private readonly int defaultDiscountPercentage = 0;     //0%
+        public int DetermineDiscountMultiplier(DateTime time)
         {
             DateTime morningTimeDiscount1 = DateTime.Today.AddHours(10);
             DateTime morningTimeDiscount2 = DateTime.Today.AddHours(13);
@@ -24,15 +24,15 @@ namespace ShopProduct
 
             if (time >= morningTimeDiscount1 && time <= morningTimeDiscount2)
             {
-                return MorningDiscountMultiplier;
+                return MorningDiscountPercentage;
             }
             else if (time >= eveningTimeDiscount1 && time <= eveningTimeDiscount2)
             {
-                return EveningDiscountMultiplier;
+                return EveningDiscountPercentage;
             }
             else
             {
-                return DefaultDiscountMultiplier;
+                return DefaultDiscountPercentage;
             }
         }
     }
