@@ -59,6 +59,7 @@ jobs:
         run: dotnet test ./WebshopBackend.IntergrationTests/WebshopBackend.IntergrationTests.csproj --configuration Release
 
   code-analyse:
+    needs: integration-test
     name: Build and analyze
     runs-on: windows-latest
     steps:
