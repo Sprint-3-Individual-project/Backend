@@ -73,6 +73,6 @@ jobs:
         with:
           args: >
               -Dsonar.organization=sprint-3-individual-project
-              -Dsonar.projectKey=main
+              -Dsonar.projectKey=Backend
               -X
       
