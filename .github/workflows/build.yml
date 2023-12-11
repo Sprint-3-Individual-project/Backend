@@ -58,12 +58,12 @@ jobs:
       - name: Run integration tests
         run: dotnet test ./WebshopBackend.IntergrationTests/WebshopBackend.IntergrationTests.csproj --configuration Release
 
-sonar-code-analysis:
-runs-on: ubuntu-latest
+  sonar-code-analysis:
+    runs-on: ubuntu-latest
     needs: intergration-test
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4   
 
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
