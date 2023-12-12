@@ -60,7 +60,7 @@ jobs:
 
   code-analyse:
     needs: integration-test
-    name: Build and analyze
+    name: sonarcloud analyse
     runs-on: windows-latest
     steps:
       - name: Set up JDK 17
