@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ShopProduct\ShopProduct.csproj" />
+    <ProjectReference Include="..\User\User.csproj" />
   </ItemGroup>
 
 </Project>

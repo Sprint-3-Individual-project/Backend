@@ -1,16 +1,20 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.JsonWebTokens;
 using ShopProduct;
 using ShopProduct.Exceptions;
 using ShopProduct.Interfaces;
+using System.Security.Claims;
+using User;
 using WebshopBackend.DTOs;
 using WebshopBackend.Exceptions;
 
 namespace WebshopBackend.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
 
     [EnableCors("_webshop_frontend")]
     public class ProductController : ControllerBase
@@ -61,26 +65,27 @@ namespace WebshopBackend.Controllers
             }
         }
 
-        //[HttpPost]
-        //public IActionResult AddProduct(ProductDTO dto)
-        //{
-        //    try
-        //    {
-        //        Product product = ProductDTO.CastProductDTO(dto);
-        //        _productManager.AddProduct(product);
-        //        return Ok();
-        //    }
-        //    catch (EmptyProductException ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, new
-        //        {
-        //            Message = "Internal Server Error: " + ex.Message
-        //        });
-        //    }
-        //}
+        //voorbeeld
+        [HttpGet("edit")]
+        [Authorize]
+        public IActionResult EditProduct(int id)
+        {
+            var roleClaim = User.FindFirstValue("role");
+            if (roleClaim != Role.Admin.ToString())
+                return Unauthorized();
+            return Ok();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateProductById(int id)
+        {
+            var roleClaim = User.FindFirstValue("role");
+            if(roleClaim != Role.Admin.ToString())
+            {
+                return Unauthorized("You are not authorized to do this");
+            }
+            // logic nog toepassen update product
+            return Ok();
+        }
     }
 }
