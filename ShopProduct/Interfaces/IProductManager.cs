@@ -11,5 +11,6 @@ namespace ShopProduct.Interfaces
         IEnumerable<Product> GetAllProducts();
         Product? GetProductByID(int id);
         //Task AddProduct(Product product);
+        void UpdateProductPrice(int id, decimal newPrice);
     }
 }

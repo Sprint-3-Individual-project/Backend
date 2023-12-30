@@ -1,5 +1,7 @@
-﻿using ShopProduct.Interfaces;
+﻿using ShopProduct.Exceptions;
+using ShopProduct.Interfaces;
 using System.Runtime.CompilerServices;
+using WebshopBackend.Exceptions;
 
 namespace ShopProduct
 {
@@ -32,6 +34,23 @@ namespace ShopProduct
             _product.SetDiscountMultiplier(discountManager.DetermineDiscountMultiplier(Clock.CurrentTime));
 
             return _product;
+        }
+
+        public void UpdateProductPrice(int id, decimal newPrice)
+        {
+            //haalt het product op wat ik wil aanpassen
+            Product product = _productRepository.GetProductByID(id);
+            if(product == null)
+            {
+                throw new ProductNotFoundException("Product not found");
+            }
+
+            if(newPrice <= 0)
+            {
+                throw new InvalidPriceException();
+            }
+
+            _productRepository.UpdateProductPrice(product, newPrice);
         }
 
         //public async Task AddProduct(Product product)

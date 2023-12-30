@@ -47,6 +47,19 @@ namespace DAL.Repositories
             return _product;
         }
 
+        public void UpdateProductPrice(Product product, decimal newPrice)
+        {
+            var existingProduct = _context.Product.FirstOrDefault(p => p.productid == product.Productid);
+            if(existingProduct == null)
+            {
+                throw new ProductNotFoundException();
+            }
+            
+            existingProduct.price = newPrice;
+
+            _context.SaveChanges();
+        }
+
         //public async Task AddProduct(Product product)
         //{
         //    ProductEntity entity = new ProductEntity(product.Name, product.Price, product.Stock, product.FotoUrl);

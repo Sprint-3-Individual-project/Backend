@@ -65,27 +65,44 @@ namespace WebshopBackend.Controllers
             }
         }
 
-        //voorbeeld
-        [HttpGet("edit")]
-        [Authorize]
-        public IActionResult EditProduct(int id)
-        {
-            var roleClaim = User.FindFirstValue("role");
-            if (roleClaim != Role.Admin.ToString())
-                return Unauthorized();
-            return Ok();
-        }
+        ////voorbeeld
+        //[HttpGet("edit")]
+        //[Authorize]
+        //public IActionResult EditProduct(int id)
+        //{
+        //    var roleClaim = User.FindFirstValue("role");
+        //    if (roleClaim != Role.Admin.ToString())
+        //        return Unauthorized();
+        //    return Ok();
+        //}
 
         [HttpPut("{id}")]
-        public IActionResult UpdateProductById(int id)
+        public IActionResult UpdateProductById(int id, decimal newPrice)
         {
             var roleClaim = User.FindFirstValue("role");
             if(roleClaim != Role.Admin.ToString())
             {
                 return Unauthorized("You are not authorized to do this");
             }
-            // logic nog toepassen update product
-            return Ok();
+            try
+            {
+
+                _productManager.UpdateProductPrice(id, newPrice);
+
+                return Ok("Product price updated successfully");
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, new
+                {
+                    Message = "Internal Server Error: " + ex.Message
+                });
+            }
+            //catch(InvalidPriceException ex)
+            //{
+            //    return BadRequest(ex.Message);
+            //}
         }
     }
 }
