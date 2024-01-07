@@ -76,22 +76,25 @@ namespace WebshopBackend.Controllers
         //    return Ok();
         //}
 
-        [HttpPut("{id}")]
-        public IActionResult UpdateProductById(int id, decimal newPrice)
+        [HttpPut("updatePrice/{id}")]
+        public IActionResult UpdateProductById(int id, [FromBody] UpdatePriceDTO updatePriceDTO)
         {
-            var roleClaim = User.FindFirstValue("role");
-            if(roleClaim != Role.Admin.ToString())
-            {
-                return Unauthorized("You are not authorized to do this");
-            }
+            //var roleClaim = User.FindFirstValue("role");
+            //if (roleClaim != Role.Admin.ToString())
+            //{
+            //    return Unauthorized("You are not authorized to do this");
+            //}
+            double newPrice = updatePriceDTO.NewPrice;
+            Console.WriteLine($"Received request for product {id} with new price: {updatePriceDTO.NewPrice}");
+
             try
             {
 
-                _productManager.UpdateProductPrice(id, newPrice);
+                _productManager.UpdateProductPrice(id, (decimal)newPrice);
 
                 return Ok("Product price updated successfully");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return StatusCode(500, new
@@ -99,10 +102,6 @@ namespace WebshopBackend.Controllers
                     Message = "Internal Server Error: " + ex.Message
                 });
             }
-            //catch(InvalidPriceException ex)
-            //{
-            //    return BadRequest(ex.Message);
-            //}
         }
     }
 }
