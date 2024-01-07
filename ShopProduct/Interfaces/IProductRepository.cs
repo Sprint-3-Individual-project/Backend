@@ -10,7 +10,7 @@ namespace ShopProduct.Interfaces
     {
         IEnumerable<Product> GetAllProducts();
         Product? GetProductByID(int id);
-        Task UpdateProductPrice(Product product, decimal newPrice);
+        void UpdateProductPrice(Product product, decimal newPrice);
         //Task AddProduct(Product product);
     }
 }

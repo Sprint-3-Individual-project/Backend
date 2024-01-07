@@ -32,7 +32,7 @@ namespace WebshopBackend.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterUser(RegisterDTO dto)
+        public async Task<IActionResult> RegisterUser([FromBody] RegisterDTO dto)
         {
             if (dto == null)
             {

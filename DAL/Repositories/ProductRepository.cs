@@ -1,5 +1,4 @@
 ﻿using DAL.Entities;
-using Microsoft.EntityFrameworkCore;
 using ShopProduct;
 using ShopProduct.Exceptions;
 using ShopProduct.Interfaces;
@@ -48,18 +47,17 @@ namespace DAL.Repositories
             return _product;
         }
 
-        public async Task UpdateProductPriceAsync(Product product, decimal newPrice)
+        public void UpdateProductPrice(Product product, decimal newPrice)
         {
-            var existingProduct = await _context.Product.FirstOrDefaultAsync(p => p.productid == product.Productid);
-
-            if (existingProduct == null)
+            var existingProduct = _context.Product.FirstOrDefault(p => p.productid == product.Productid);
+            if(existingProduct == null)
             {
                 throw new ProductNotFoundException();
             }
-
+            
             existingProduct.price = newPrice;
 
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
         //public async Task AddProduct(Product product)
