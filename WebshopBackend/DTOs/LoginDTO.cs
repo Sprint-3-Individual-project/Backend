@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebshopBackend.DTOs
 {
     public class LoginDTO
     {
-        public LoginDTO(string email, string password) 
+        [Newtonsoft.Json.JsonConstructor]
+        public LoginDTO([JsonProperty("email")] string email, [JsonProperty("password")] string password) 
         {
             _email = email;
             _password = password;

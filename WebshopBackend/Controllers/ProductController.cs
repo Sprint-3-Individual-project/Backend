@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.IdentityModel.JsonWebTokens;
 using ShopProduct;
 using ShopProduct.Exceptions;
@@ -10,6 +11,7 @@ using System.Security.Claims;
 using User;
 using WebshopBackend.DTOs;
 using WebshopBackend.Exceptions;
+using WebshopBackend.Hubs;
 
 namespace WebshopBackend.Controllers
 {
@@ -20,10 +22,12 @@ namespace WebshopBackend.Controllers
     public class ProductController : ControllerBase
     {
         IProductManager _productManager;
+        IHubContext<DefaultHub> _hubContext;
 
-        public ProductController(IProductManager productManager)
+        public ProductController(IProductManager productManager, IHubContext<DefaultHub> hubContext)
         {
             _productManager = productManager;
+            _hubContext = hubContext;
         }
 
         [HttpGet]
@@ -92,7 +96,11 @@ namespace WebshopBackend.Controllers
 
                 _productManager.UpdateProductPrice(id, (decimal)newPrice);
 
+                var message = $"Product heeft succesvol de prijs gewijzigd naar {newPrice}";
+                _hubContext.Clients.All.SendCoreAsync("BroadCastMessage", new object[] { message });
                 return Ok("Product price updated successfully");
+                // connectie leggen in de frontend met de websocket
+                // als de updateprice succesvol is, stuur een notificatie naar alle clients (daarvoor gebruik ik de hub)
             }
             catch (Exception ex)
             {

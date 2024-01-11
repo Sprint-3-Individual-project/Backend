@@ -66,7 +66,7 @@ namespace WebshopBackend.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> UserLogin(LoginDTO dto)
+        public async Task<IActionResult>UserLogin([FromBody] LoginDTO dto)
         {
             if (dto == null)
             {
