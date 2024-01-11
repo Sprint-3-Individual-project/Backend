@@ -55,7 +55,7 @@ namespace WebshopBackend.Controllers
                 // eerst wil ik controleren of de User bestaat, zo niet wil ik controleren of alle velden geldig heeft ingevuld.
                 // is dat het geval mag er een nieuwe user worden aangemaakt.
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return StatusCode(500, new
@@ -66,7 +66,7 @@ namespace WebshopBackend.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult>UserLogin([FromBody] LoginDTO dto)
+        public async Task<IActionResult> UserLogin([FromBody] LoginDTO dto)
         {
             if (dto == null)
             {
@@ -82,14 +82,20 @@ namespace WebshopBackend.Controllers
                 }
                 //een check of het wachtwoord overeenkomt met het ingevoerde wachtwoord
                 bool passwordvalid = PasswordHasher.Verification(dto.Password, user.Password);
-                if(!passwordvalid)
+                if (!passwordvalid)
                 {
                     return Unauthorized("Invalid Password");
                 }
+
+                TokenGenerator tokenGenerator = new TokenGenerator(_config);
+
+                string token = tokenGenerator.GenerateToken(user);
+
                 // User role aanpassen in database naar admin
                 //tot slot als alles is gecontroleerd wil ik dat hij een token meekrijgt.
                 //await _usermanager.
-                return Ok(GenerateToken(user, _config));
+                return Ok(token);
+                //GenerateToken(user, _config)
             }
             catch (Exception ex)
             {
@@ -103,12 +109,12 @@ namespace WebshopBackend.Controllers
 
 
         // misschien nog een await toepassen
-        [HttpPost ("elavate")]
+        [HttpPost("elavate")]
         [Authorize]
         public async Task<IActionResult> ElevateUser(string email)
         {
             var roleClaim = User.FindFirstValue("role");
-            if(roleClaim != Role.Admin.ToString())
+            if (roleClaim != Role.Admin.ToString())
             {
                 return Unauthorized("You are not authorized to do this");
             }
@@ -137,27 +143,27 @@ namespace WebshopBackend.Controllers
         /// <param name="account"></param>
         /// <param name="config"></param>
         /// <returns></returns>
-        private static string GenerateToken(Account account, IConfiguration config)
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+        //private static string GenerateToken(Account account, IConfiguration config)
+        //{
+        //    var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]));
+        //    var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            // Set the claims
-            var claims = new List<Claim>()
-            {
-                new Claim(JwtRegisteredClaimNames.Jti, account.CustomerId.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, account.Email),
-                new Claim(JwtRegisteredClaimNames.Name, account.Username),
-                new Claim("role", account.Role.ToString()),
-            };
+        //    // Set the claims
+        //    var claims = new List<Claim>()
+        //    {
+        //        new Claim(JwtRegisteredClaimNames.Jti, account.CustomerId.ToString()),
+        //        new Claim(JwtRegisteredClaimNames.Email, account.Email),
+        //        new Claim(JwtRegisteredClaimNames.Name, account.Username),
+        //        new Claim("role", account.Role.ToString()),
+        //    };
 
-            var token = new JwtSecurityToken(config["Jwt:Issuer"],
-              config["Jwt:Issuer"],
-              claims,
-              expires: DateTime.Now.AddMinutes(120),
-              signingCredentials: credentials);
+        //    var token = new JwtSecurityToken(config["Jwt:Issuer"],
+        //      config["Jwt:Issuer"],
+        //      claims,
+        //      expires: DateTime.Now.AddMinutes(120),
+        //      signingCredentials: credentials);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
+        //    return new JwtSecurityTokenHandler().WriteToken(token);
+        //}
     }
 }
