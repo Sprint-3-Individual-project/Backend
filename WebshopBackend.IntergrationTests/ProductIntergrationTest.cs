@@ -32,6 +32,22 @@ namespace WebshopBackend.IntergrationTests
             Console.WriteLine(response.Content);
             Assert.True(response.IsSuccessStatusCode);
         }
+
+        [Theory]
+        [InlineData("/api/Product/1")]
+        public async Task GetByID_EndpointsReturnSuccess(string url)
+        {
+            //Arrange
+            HttpClient httpClient = _factory.CreateClient();
+
+            //Act
+            HttpResponseMessage response = await httpClient.GetAsync(url);
+
+            //Assert
+            Console.WriteLine(response.Content);
+            Assert.True(response.IsSuccessStatusCode);
+        }
+
         [Theory]
         [InlineData("/api/Product/updatePrice/1")]
         public async Task Put_EndpointsReturnSucces(string url)
