@@ -96,8 +96,12 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"Sprint-3-Individual-project_Backend" /o:"sprint-3-individual-project" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet tool install --global dotnet-coverage
+          pushd Backend
+
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"Sprint-3-Individual-project_Backend" /o:"sprint-3-individual-project" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
           dotnet build
-          dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage"
+          dotnet-coverage collect 'dotnet test' -f xml  -o 'coverage.xml'
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          popd
       
