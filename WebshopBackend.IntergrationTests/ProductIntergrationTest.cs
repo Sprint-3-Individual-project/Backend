@@ -20,6 +20,23 @@ namespace WebshopBackend.IntergrationTests
 
         [Theory]
         [InlineData("/api/Product")]
+        public async Task Post_EndpointsReturnSucces(string url)
+        {
+            //Arrange
+            HttpClient httpClient = _factory.CreateClient();
+            var json = JsonConvert.SerializeObject(new ProductDTO("test", 2, 10, "testurl"));
+            StringContent content = new StringContent(json);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            //Act
+            HttpResponseMessage response = await httpClient.PostAsync(url, content);
+
+            //Assert
+            Console.WriteLine(response.Content);
+            Assert.True(response.IsSuccessStatusCode);
+        }
+
+        [Theory]
+        [InlineData("/api/Product")]
         public async Task Get_EndpointsReturnSuccess(string url)
         {
             //Arrange

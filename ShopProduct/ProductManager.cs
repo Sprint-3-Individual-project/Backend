@@ -53,10 +53,10 @@ namespace ShopProduct
             _productRepository.UpdateProductPrice(product, newPrice);
         }
 
-        //public async Task AddProduct(Product product)
-        //{
-        //    await _productRepository.AddProduct(product);
-        //}
+        public async Task AddProduct(Product product)
+        {
+            await _productRepository.AddProduct(product);
+        }
         private void ApplyDiscounts(IEnumerable<Product> _products)
         {
             foreach (Product p in _products)

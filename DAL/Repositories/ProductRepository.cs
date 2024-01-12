@@ -60,19 +60,19 @@ namespace DAL.Repositories
             _context.SaveChanges();
         }
 
-        //public async Task AddProduct(Product product)
-        //{
-        //    ProductEntity entity = new ProductEntity(product.Name, product.Price, product.Stock, product.FotoUrl);
-        //    if(entity != null)
-        //    {
-        //        _context.Product.Add(entity);
-        //        _context.SaveChanges();
-        //    }
-        //    else
-        //    {
-        //        throw new EmptyProductException();
-        //    }
-        //}
+        public async Task AddProduct(Product product)
+        {
+            ProductEntity entity = new ProductEntity(product.Name, product.Price, product.Stock, product.FotoUrl);
+            if (entity != null)
+            {
+                _context.Product.Add(entity);
+                _context.SaveChanges();
+            }
+            else
+            {
+                throw new EmptyProductException();
+            }
+        }
     }
 }
 

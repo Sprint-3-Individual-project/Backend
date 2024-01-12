@@ -111,5 +111,30 @@ namespace WebshopBackend.Controllers
                 });
             }
         }
+
+        [HttpPost]
+        public IActionResult CreateProduct([FromBody] ProductDTO productDto)
+        {
+            //var roleClaim = User.FindFirstValue("role");
+            //if (roleClaim != Role.Admin.ToString())
+            //{
+            //    return Unauthorized("You are not authorized to do this");
+            //}
+            try
+            {
+
+                _productManager.AddProduct(new Product(0, productDto.name, productDto.price, productDto.stock, productDto.fotourl));
+
+                return Ok("Product added successfully");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, new
+                {
+                    Message = "Internal Server Error: " + ex.Message
+                });
+            }
+        }
     }
 }
