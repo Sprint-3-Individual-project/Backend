@@ -4,7 +4,7 @@ using WebshopBackend.DTOs;
 
 namespace WebshopBackend.IntergrationTests
 {
-    public class ProductIntergrationTest : IClassFixture<WebApplicationFactory<WebshopBackendProgram>>
+    public class ProductIntergrationTest : IClassFixture<WebApplicationFactory<WebshopBackendProgram>>, IAsyncLifetime
     {
         private readonly WebApplicationFactory<WebshopBackendProgram> _factory;
         public ProductIntergrationTest(WebApplicationFactory<WebshopBackendProgram> factory)
@@ -74,6 +74,16 @@ namespace WebshopBackend.IntergrationTests
             //Assert
             Console.WriteLine(response.Content);
             Assert.True(response.IsSuccessStatusCode);
+        }
+
+        public async Task InitializeAsync()
+        {
+            await Task.Delay(10000);
+        }
+
+        public Task DisposeAsync()
+        {
+            return Task.CompletedTask;
         }
     }
 }
