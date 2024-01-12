@@ -133,6 +133,7 @@ using (IServiceScope serviceScope = app.Services.GetRequiredService<IServiceScop
     try
     {
         context?.Database.EnsureCreated();
+        await Task.Delay(10000);
     }
     catch (Exception ex)
     {
