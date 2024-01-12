@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using WebshopBackend.DTOs;
 
 namespace WebshopBackend.IntergrationTests
 {
@@ -31,19 +32,21 @@ namespace WebshopBackend.IntergrationTests
             Console.WriteLine(response.Content);
             Assert.True(response.IsSuccessStatusCode);
         }
-        //[Theory]
-        //[InlineData("/api/Product/updatePrice/1")]
-        //public async Task Put_EndpointsReturnSucces(string url)
-        //{
-        //    //Arrange
-        //    HttpClient httpClient = _factory.CreateClient();
+        [Theory]
+        [InlineData("/api/Product/updatePrice/1")]
+        public async Task Put_EndpointsReturnSucces(string url)
+        {
+            //Arrange
+            HttpClient httpClient = _factory.CreateClient();
+            var json = JsonConvert.SerializeObject(new UpdatePriceDTO(1));
+            StringContent content = new StringContent(json);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+            //Act
+            HttpResponseMessage response = await httpClient.PutAsync(url, content);
 
-        //    //Act
-        //    HttpResponseMessage response = await httpClient.PutAsync(url, null);
-
-        //    //Assert
-        //    Console.WriteLine(response.Content);
-        //    Assert.True(response.IsSuccessStatusCode);
-        //}
+            //Assert
+            Console.WriteLine(response.Content);
+            Assert.True(response.IsSuccessStatusCode);
+        }
     }
 }
