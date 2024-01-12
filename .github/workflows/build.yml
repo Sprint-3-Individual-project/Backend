@@ -97,7 +97,6 @@ jobs:
         shell: powershell
         run: |
           dotnet tool install --global dotnet-coverage
-          pushd Backend
 
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"Sprint-3-Individual-project_Backend" /o:"sprint-3-individual-project" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
           dotnet build
