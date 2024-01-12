@@ -1,11 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using WebshopBackend.DTOs;
 
 namespace WebshopBackend.IntergrationTests
@@ -24,7 +18,7 @@ namespace WebshopBackend.IntergrationTests
         {
             //Arrange
             HttpClient httpClient = _factory.CreateClient();
-            var json = JsonConvert.SerializeObject(new ProductDTO("test", 2, 10, "testurl"));
+            var json = System.Text.Json.JsonSerializer.Serialize(new ProductDTO("test", 2, 10, "testurl"));
             StringContent content = new StringContent(json);
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
             //Act
