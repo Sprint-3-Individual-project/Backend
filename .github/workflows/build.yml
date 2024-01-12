@@ -50,6 +50,9 @@ jobs:
           services: |
             sql-server-db
 
+      - name: sleep
+        run: sleep 30s
+        
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v3
         with:
@@ -59,7 +62,7 @@ jobs:
         run: dotnet test ./WebshopBackend.IntergrationTests/WebshopBackend.IntergrationTests.csproj --configuration Release
 
   code-analyse:
-    # needs: integration-test
+    needs: integration-test
     name: sonarcloud analyse
     runs-on: windows-latest
     steps:
